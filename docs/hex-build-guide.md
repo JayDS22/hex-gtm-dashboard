@@ -22,15 +22,15 @@ Add a Python cell at the top of the project, name it `load_data`, paste:
 import pandas as pd
 BASE = "https://raw.githubusercontent.com/JayDS22/hex-gtm-dashboard/main/data"
 
-arr_trend         = pd.read_csv(f"{BASE}/arr_trend.csv",         parse_dates=['metric_time__month'])
-nrr_by_cohort     = pd.read_csv(f"{BASE}/nrr_by_cohort.csv",     parse_dates=['cohort_arr_row__cohort_month__month', 'metric_time__month'])
-logo_retention    = pd.read_csv(f"{BASE}/logo_retention.csv",    parse_dates=['cohort_arr_row__cohort_month__month', 'metric_time__month'])
-pipeline_strict   = pd.read_csv(f"{BASE}/pipeline_strict.csv",   parse_dates=['metric_time__quarter'])
-pipeline_qtd      = pd.read_csv(f"{BASE}/pipeline_qtd.csv",      parse_dates=['metric_time__quarter'])
-funnel_conv       = pd.read_csv(f"{BASE}/funnel_conv.csv",       parse_dates=['metric_time__week'])
-cac_payback       = pd.read_csv(f"{BASE}/cac_payback.csv",       parse_dates=['metric_time__quarter'])
-rule_of_40        = pd.read_csv(f"{BASE}/rule_of_40.csv",        parse_dates=['metric_time__quarter'])
-arr_growth        = pd.read_csv(f"{BASE}/arr_growth.csv",        parse_dates=['metric_time__quarter'])
+arr_trend          = pd.read_csv(f"{BASE}/arr_trend.csv",          parse_dates=['metric_time__month'])
+nrr_by_cohort      = pd.read_csv(f"{BASE}/nrr_by_cohort.csv",      parse_dates=['cohort_arr_row__cohort_month__month', 'metric_time__month'])
+logo_retention     = pd.read_csv(f"{BASE}/logo_retention.csv",     parse_dates=['cohort_arr_row__cohort_month__month', 'metric_time__month'])
+pipeline_strict    = pd.read_csv(f"{BASE}/pipeline_strict.csv",    parse_dates=['metric_time__quarter'])
+pipeline_qtd       = pd.read_csv(f"{BASE}/pipeline_qtd.csv",       parse_dates=['metric_time__quarter'])
+weighted_pipeline  = pd.read_csv(f"{BASE}/weighted_pipeline.csv",  parse_dates=['metric_time__quarter'])
+cac_payback        = pd.read_csv(f"{BASE}/cac_payback.csv",        parse_dates=['metric_time__quarter'])
+rule_of_40         = pd.read_csv(f"{BASE}/rule_of_40.csv",         parse_dates=['metric_time__quarter'])
+arr_growth         = pd.read_csv(f"{BASE}/arr_growth.csv",         parse_dates=['metric_time__quarter'])
 ```
 
 Run the cell once. Hex now has 9 dataframes available to all downstream cells.
@@ -66,7 +66,7 @@ For each panel, add a Chart cell and point its "Dataframe" dropdown at one of th
 | P3 Logo retention | `logo_retention` | Line chart | X: `metric_time__month`, Y: `logo_retention`, series: `cohort_arr_row__cohort_month__month` |
 | P4 Pipeline coverage | `pipeline_strict` | Bar chart | X: `team`, Y: `pipeline_coverage`; horizontal threshold at 3.0 |
 | P4b Pipeline (QtD) | `pipeline_qtd` | Bar chart | X: `team`, Y: `pipeline_coverage_qtd`; same threshold |
-| P5 Funnel conversion | `funnel_conv` | Line chart | X: `metric_time__week`, 3 series: `mql_to_sql_conv`, `sql_to_won_conv`, `activation_rate` |
+| P5 Weighted pipeline ARR | `weighted_pipeline` | Bar chart | X: `metric_time__quarter`, Y: `weighted_pipeline_arr`; format Y as currency |
 | P6 CAC payback | `cac_payback` | Bar chart | X: `metric_time__quarter`, Y: `cac_payback_months`; horizontal threshold at 18 |
 | P7 Rule-of-40 | `rule_of_40` | Bar + reference line | X: `metric_time__quarter`, Y: `rule_of_40`; horizontal threshold at 40 (Bessemer healthy line) |
 | P7b ARR growth | `arr_growth` | Line chart | X: `metric_time__quarter`, Y: `arr_qoq_annualized_growth_pct` |

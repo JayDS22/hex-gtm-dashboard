@@ -40,8 +40,15 @@ run logo_retention    --metrics logo_retention                 --group-by metric
 run pipeline_strict   --metrics pipeline_coverage              --group-by metric_time__quarter,team            --order metric_time__quarter
 run pipeline_qtd      --metrics pipeline_coverage_qtd          --group-by metric_time__quarter,team            --order metric_time__quarter
 
-# P5 Funnel conversions (weekly).
-run funnel_conv       --metrics mql_to_sql_conv,sql_to_won_conv,mql_to_won_conv,activation_rate --group-by metric_time__week --order metric_time__week
+# P5 Weighted pipeline ARR by quarter. Replaces the funnel conversion panel
+# because the demo product_events seed is too thin to compute meaningful
+# MQL/SQL/activation conversions; weighted_pipeline_arr uses the opportunity
+# amount x stage-probability data which is dense + GTM-relevant.
+run weighted_pipeline --metrics weighted_pipeline_arr                         --group-by metric_time__quarter --order metric_time__quarter
+
+# (optional, kept for reference) Original funnel export — commented out until
+# product_events seed carries dense funnel-stage data.
+# run funnel_conv     --metrics mql_to_sql_conv,sql_to_won_conv,mql_to_won_conv,activation_rate --group-by metric_time__week --order metric_time__week
 
 # P6 CAC payback by quarter.
 run cac_payback       --metrics cac_payback_months             --group-by metric_time__quarter --order metric_time__quarter
