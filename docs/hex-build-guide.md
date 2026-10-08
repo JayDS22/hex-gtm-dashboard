@@ -91,10 +91,25 @@ Place charts under their section:
 
 ## 6. Appendix (bottom of project)
 
-Add a Markdown cell with:
-- Methodology: "All metrics sourced from the companion [gtm-semantic-layer](https://github.com/JayDS22/gtm-semantic-layer) repo (dbt-core + MetricFlow). Full definitions, grain, and confidence tiers in the companion `docs/metric-glossary.md`."
-- Freshness: "Data snapshot refreshed on 2026-10-08. Re-exported from the semantic layer via `scripts/export_csvs.sh`."
-- Synthetic-data disclaimer: "Underlying data is a synthetic 12-month SaaS seed included in the companion repo for public demo purposes. Numbers are illustrative, not real company data."
+Add one Markdown cell at the bottom of the project and paste the block below verbatim. This is the honesty layer that distinguishes a demo from a sales pitch and the thing a technical reviewer specifically looks for.
+
+```markdown
+### About this dashboard
+
+**Metrics** — All 23 metrics (ARR, NRR, CAC payback, Rule-of-40, etc.) are sourced from the companion [gtm-semantic-layer](https://github.com/JayDS22/gtm-semantic-layer) repo, which ships a dbt-core 1.12 + MetricFlow semantic layer with 146+ dbt tests and 4 singular reconciliation tests. Every metric's formula, grain, and confidence tier is documented in that repo's [`docs/metric-glossary.md`](https://github.com/JayDS22/gtm-semantic-layer/blob/main/docs/metric-glossary.md).
+
+**Data** — Underlying numbers are a synthetic 27-month SaaS seed (Oct 2025 → Dec 2027) included in the companion repo for public demo purposes. 30 accounts, 36 subscriptions, 12 quarters of financials. Patterns are illustrative of a growth-stage B2B SaaS; absolute numbers are not real company data.
+
+**Freshness** — Data snapshot refreshed on 2026-10-08 via `scripts/export_csvs.sh` in the companion repo. Re-running the script against the latest semantic-layer state regenerates the CSVs this dashboard reads.
+
+**Data source** — The dashboard currently reads static CSV snapshots over HTTPS from the [hex-gtm-dashboard](https://github.com/JayDS22/hex-gtm-dashboard) repo on GitHub. Production deployments swap the CSV source for Hex's native Snowflake connector; the companion repo's `profiles.yml` already carries a Snowflake profile pre-configured for exactly this swap. The CSV path is used here so the public demo doesn't depend on a time-limited warehouse trial.
+
+**Known caveats**
+- The 3 funnel conversion metrics ship as `confidence_tier: evolving` (same-period proxy; true per-user cohort tracking is a Day 7+ item in the companion repo).
+- CAC payback is segment-weighted using real new_arr by segment but with seeded gross margin + segment mix (production would source from the finance system).
+- Rule-of-40 uses QoQ-annualized ARR growth (not YoY) because the demo seed carries 9 quarters of history; YoY needs ≥ 5 quarters minimum and smoothes hypergrowth outliers.
+- Filter dropdowns at the top are decorative in v1 (Hex displays them but segment/region slicing of pre-aggregated CSVs is a v2 item).
+```
 
 ## 7. Publish
 
